@@ -1,5 +1,6 @@
 import express from "express";
 import axios from "axios";
+import fs from "fs/promises";
 
 const app = express();
 const port = 3000;
@@ -9,10 +10,11 @@ app.get("/todos", async (req, res) => {
   try {
     const response = await axios.get("https://dummyjson.com/todos");
     const data = response.data;
+    fs.writeFile("data.json", JSON.stringify(data, null, 2));
     res.json(data);
   } catch (error) {
     console.error(error);
-    res.status(500).send("An error occurred while fetching todos.");
+    res.status(500).send("An error occurred while fetching todos");
   }
 });
 
